@@ -50,6 +50,9 @@ public class AccountListAdapter extends RecyclerView.Adapter<AccountListAdapter.
         holder.passwordTextView.setText(password);
         holder.timestampTextView.setText(timestamp);
         holder.idTextView.setText(String.valueOf(_id));
+
+        // set the tag of the itemview to match id of entry
+        holder.itemView.setTag(_id);
     }
 
     @Override

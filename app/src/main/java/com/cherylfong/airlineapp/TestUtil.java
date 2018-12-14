@@ -39,12 +39,6 @@ public class TestUtil {
         cv.put(AccountContract.AccountEntry.COLUMN_PASSWORD, "CHrIS12!!");
         accList.add(cv);
 
-        cv = new ContentValues();
-        cv.put(AccountContract.AccountEntry.COLUMN_USERNAME, "!admiM2");
-        cv.put(AccountContract.AccountEntry.COLUMN_PASSWORD, "!admiM2");
-        accList.add(cv);
-
-
         //insert all accounts in one transaction
         try
         {

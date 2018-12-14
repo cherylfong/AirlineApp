@@ -1,15 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ViewAccountsActivity">
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/username_edit_text"
+            android:layout_width="256dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:hint="@string/username_hint"
+            android:inputType="text"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
+
+        <EditText
+            android:id="@+id/password_edit_text"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/password_hint"
+            android:hint="@string/password_hint"
+            android:inputType="text"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/add_to_account_list_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/colorPrimary"
+        android:onClick="addUserAccount"
+        android:text="@string/add_button_text"
+        android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button.Inverse" />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/acc_recycler_view"
-        android:scrollbars="vertical"
+        android:id="@+id/all_accounts_list_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>

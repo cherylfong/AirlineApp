@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:padding="16dp">
+    android:layout_height="56dp"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
 
     <TextView
         android:id="@+id/account_id_text_view"
@@ -14,7 +14,7 @@
         android:fontFamily="sans-serif"
         android:gravity="center"
         android:textColor="@android:color/white"
-        android:textSize="10sp"
+        android:textSize="16sp"
         android:text="@string/default_id"/>
 
     <TextView
@@ -24,7 +24,7 @@
         android:layout_marginLeft="16dp"
         android:layout_weight="1"
         android:fontFamily="sans-serif"
-        android:textSize="10sp"
+        android:textSize="16sp"
         android:text="@string/default_username"/>
 
     <TextView
@@ -34,7 +34,7 @@
         android:layout_marginLeft="16dp"
         android:layout_weight="1"
         android:fontFamily="sans-serif"
-        android:textSize="10sp"
+        android:textSize="16sp"
         android:text="@string/default_password"/>
 
     <TextView
@@ -44,8 +44,8 @@
         android:layout_marginLeft="16dp"
         android:layout_weight="1"
         android:fontFamily="sans-serif"
-        android:textSize="10sp"
+        android:textSize="16sp"
         android:text="@string/default_timestamp"/>
 
 
-</FrameLayout>
+</LinearLayout>

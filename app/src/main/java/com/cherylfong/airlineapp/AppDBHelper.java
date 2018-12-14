@@ -14,7 +14,7 @@ public class AppDBHelper extends SQLiteOpenHelper{
     private static final String DATABASE_NAME = "flight-reservations-app.db";
 
     // If change database schema, must increment the database version
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     // constructor
     public AppDBHelper(Context context){

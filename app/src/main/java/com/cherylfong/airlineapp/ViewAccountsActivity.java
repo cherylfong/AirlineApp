@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -53,6 +54,38 @@ public class ViewAccountsActivity extends AppCompatActivity {
 
         // link adapter to Recyclerview
         accountListRecylerView.setAdapter(mAdapter);
+
+
+
+        // A new ItemTouchHelper with a SimpleCallback that handles both LEFT and RIGHT swipe directions
+        // To handle swiping items off the list
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                //do nothing, since only want swiping
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+
+                //get the id of the item being swiped
+                int id = (int) viewHolder.itemView.getTag();
+
+                Log.d("ItemTouchHelper", "value of id: " + id);
+
+                //remove from DB
+                removeAccount(id);
+
+
+                //update the list
+                mAdapter.swapCursor(getAllAccounts());
+            }
+
+            // attach the ItemTouchHelper to the RecyclerView
+        }).attachToRecyclerView(accountListRecylerView);
+
     }
 
     /**
@@ -131,6 +164,19 @@ public class ViewAccountsActivity extends AppCompatActivity {
 
         return mDb.insert(AccountContract.AccountEntry.TABLE_NAME, null, cv);
     }
+
+
+    /**
+     * Removes the record with the specified id
+     *
+     * @param id the DB id to be removed
+     * @return True: if removed successfully, False: failed
+     */
+    private boolean removeAccount(long id) {
+
+        return mDb.delete(AccountContract.AccountEntry.TABLE_NAME, AccountContract.AccountEntry._ID + "=" + id, null) > 0;
+    }
+
 
 
 }

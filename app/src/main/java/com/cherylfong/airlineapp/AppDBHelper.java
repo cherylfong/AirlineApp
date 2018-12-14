@@ -24,7 +24,7 @@ public class AppDBHelper extends SQLiteOpenHelper{
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase){
 
-        Log.d("AppDBHelper", "onCreate()");
+        Log.i("AppDBHelper", "onCreate()");
 
         String SQL_CREATE_ACCOUNTS_TABLE = "";
 
@@ -39,6 +39,8 @@ public class AppDBHelper extends SQLiteOpenHelper{
                     + "); ";
 
             sqLiteDatabase.execSQL(SQL_CREATE_ACCOUNTS_TABLE);
+
+            TestUtil.insertTestAccounts(sqLiteDatabase);
 
         }catch (SQLException e){
 

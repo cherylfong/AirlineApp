@@ -16,7 +16,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ViewAccountsActivity"></activity>
+        <activity android:name=".ViewAccountsActivity" />
+        <activity android:name=".ManageSystemActivity" />
+        <activity android:name=".AdminLoginActivity"></activity>
     </application>
 
 </manifest>

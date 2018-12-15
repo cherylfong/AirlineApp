@@ -19,8 +19,17 @@ public class ManageSystemActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent intent = new Intent(ManageSystemActivity.this, ViewAccountsActivity.class);
-                startActivityForResult(intent, 100);
+                startActivity(intent);
+            }
+        });
 
+        findViewById(R.id.logs_button).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick (View v){
+
+                Intent intent = new Intent( ManageSystemActivity.this, ViewSystemLogsActivity.class);
+                startActivity(intent);
             }
         });
     }

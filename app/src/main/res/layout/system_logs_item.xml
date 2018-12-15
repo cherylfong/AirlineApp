@@ -30,13 +30,14 @@
 
     <TextView
         android:id="@+id/system_logs_details_textView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="91dp"
+        android:layout_height="match_parent"
         android:layout_marginLeft="16dp"
         android:layout_weight="1"
         android:fontFamily="sans-serif"
-        android:textSize="12sp"
-        android:text="@string/default_details"/>
+        android:gravity="center"
+        android:text="@string/default_details"
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/system_logs_timestamp_textView"

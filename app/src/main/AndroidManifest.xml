@@ -18,7 +18,9 @@
         </activity>
         <activity android:name=".ViewAccountsActivity" />
         <activity android:name=".ManageSystemActivity" />
-        <activity android:name=".AdminLoginActivity"></activity>
+        <activity android:name=".AdminLoginActivity" />
+        <activity android:name=".ViewSystemLogsActivity" />
+        <activity android:name=".CreateAccountActivity"></activity>
     </application>
 
 </manifest>

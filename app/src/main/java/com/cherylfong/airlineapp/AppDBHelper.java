@@ -16,6 +16,22 @@ public class AppDBHelper extends SQLiteOpenHelper{
     // If change database schema, must increment the database version
     private static final int DATABASE_VERSION = 2;
 
+    private static final String ACCOUNTS_TABLE = "CREATE TABLE " + AccountEntry.TABLE_NAME + " ("
+            + AccountEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+            + AccountEntry.COLUMN_USERNAME + " TEXT NOT NULL, "
+            + AccountEntry.COLUMN_PASSWORD + " TEXT NOT NULL, "
+            + AccountEntry.COLUMN_TIMESTAMP + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP"
+            + "); ";
+
+    private static final String SYSTEMLOGS_TABLE = "CREATE TABLE " + SystemLogsContract.LogEntry.TABLE_NAME + " ("
+            + SystemLogsContract.LogEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+            + SystemLogsContract.LogEntry.COLUMN_TYPE + " TEXT NOT NULL, "
+            + SystemLogsContract.LogEntry.COLUMN_DETAILS + " TEXT NOT NULL, "
+            + SystemLogsContract.LogEntry.COLUMN_TIMESTAMP + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP"
+            + "); ";
+
+
+
     // constructor
     public AppDBHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -26,21 +42,16 @@ public class AppDBHelper extends SQLiteOpenHelper{
 
         Log.i("AppDBHelper", "onCreate()");
 
-        String SQL_CREATE_ACCOUNTS_TABLE = "";
-
         try{
 
             // create table to hold user account data
-            SQL_CREATE_ACCOUNTS_TABLE = "CREATE TABLE " + AccountEntry.TABLE_NAME + " ("
-                    + AccountEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    + AccountEntry.COLUMN_USERNAME + " TEXT NOT NULL, "
-                    + AccountEntry.COLUMN_PASSWORD + " TEXT NOT NULL, "
-                    + AccountEntry.COLUMN_TIMESTAMP + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP"
-                    + "); ";
-
+            String SQL_CREATE_ACCOUNTS_TABLE = ACCOUNTS_TABLE;
             sqLiteDatabase.execSQL(SQL_CREATE_ACCOUNTS_TABLE);
 
-            TestUtil.insertTestAccounts(sqLiteDatabase);
+            String SQL_CREATE_LOGS_TABLE = SYSTEMLOGS_TABLE;
+            sqLiteDatabase.execSQL(SQL_CREATE_LOGS_TABLE);
+
+            TestUtil.insertTestData(sqLiteDatabase);
 
         }catch (SQLException e){
 
@@ -57,7 +68,15 @@ public class AppDBHelper extends SQLiteOpenHelper{
         // simply drop the table and create a new one.
         // if DATABASE_VERSION changed then the tables will be dropped.
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + AccountEntry.TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + SystemLogsContract.LogEntry.TABLE_NAME);
+
         onCreate(sqLiteDatabase);
     }
+
+//    // TODO (7) create checkUser function
+//    public boolean checkUser(String username, String password){
+//
+//    }
+
 
 }

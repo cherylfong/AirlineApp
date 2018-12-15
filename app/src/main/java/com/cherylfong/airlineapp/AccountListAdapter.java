@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 public class AccountListAdapter extends RecyclerView.Adapter<AccountListAdapter.AccountViewHolder> {
 
-    // Holds on to the cursor to display the waitlist
+    // Holds on to the cursor to display accounts
     private Cursor mCursor;
     private Context mContext;
 

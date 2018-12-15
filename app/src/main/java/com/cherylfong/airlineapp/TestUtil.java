@@ -11,7 +11,7 @@ import java.util.List;
 public class TestUtil {
 
 
-    public static void insertTestAccounts(SQLiteDatabase db){
+    public static void insertTestData(SQLiteDatabase db){
 
         if(db == null){
 
@@ -70,9 +70,53 @@ public class TestUtil {
 
 
 
+        //////////////////////////////////////////////////////////////////////
+        Log.d("TestUtil", "insertTestLogs called");
+        /////////////////////////////////////////////////////////////////////
 
+        //create a list of test accounts
+        List<ContentValues> logList = new ArrayList<ContentValues>();
 
+        cv = new ContentValues();
+        cv.put(SystemLogsContract.LogEntry.COLUMN_TYPE, "X0");
+        cv.put(SystemLogsContract.LogEntry.COLUMN_DETAILS, "....");
+        logList.add(cv);
 
+        cv = new ContentValues();
+        cv.put(SystemLogsContract.LogEntry.COLUMN_TYPE, "X1");
+        cv.put(SystemLogsContract.LogEntry.COLUMN_DETAILS, "....");
+        logList.add(cv);
+
+        //insert all logs in one transaction
+        try
+        {
+            db.beginTransaction();
+
+            //clear the table
+            db.delete(SystemLogsContract.LogEntry.TABLE_NAME,null,null);
+
+            //add cv on the list
+            for(ContentValues v:logList){
+
+                db.insert(SystemLogsContract.LogEntry.TABLE_NAME, null, v);
+
+            }
+
+            db.setTransactionSuccessful();
+
+            Log.d("TestUtil", "create dummy log data successful");
+        }
+        catch (SQLException e) {
+
+            Log.e("TestUtil", "Error: " + e.getMessage());
+        }
+        finally
+        {
+            db.endTransaction();
+            Log.d("TestUtil", "create dummy log data done");
+        }
 
     }
+
+
 }

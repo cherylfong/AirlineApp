@@ -1,6 +1,8 @@
 package com.cherylfong.airlineapp;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -73,10 +75,78 @@ public class AppDBHelper extends SQLiteOpenHelper{
         onCreate(sqLiteDatabase);
     }
 
-//    // TODO (7) create checkUser function
-//    public boolean checkUser(String username, String password){
-//
-//    }
+
+    // returns true if user exists
+    public boolean isUser(String username){
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String[] columns = {
+                AccountEntry._ID
+        };
+
+        String selection = AccountEntry.COLUMN_USERNAME + " = ?";
+
+        String[] selectArg = {username};
+
+        Cursor cursor = db.query(
+                AccountEntry.TABLE_NAME,
+                columns,
+                selection,
+                selectArg,
+                null,
+                null,
+                null
+        );
+
+        int cusorCount = cursor.getCount();
+        cursor.close();
+        db.close();
+
+        if(cusorCount> 0){
+            return true;
+        }
+
+        return false;
+    }
+
+    // add user to account table
+    public void addUser(Account user){
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues cv = new ContentValues();
+        cv.put(AccountEntry.COLUMN_USERNAME, user.getUsername());
+        cv.put(AccountEntry.COLUMN_PASSWORD, user.getPassword());
+
+       try{
+           db.insert(AccountEntry.TABLE_NAME, null, cv);
+       } catch (SQLException e){
+           Log.d("AppDBHelper addUser", "Error: " + e.getMessage());
+       }
+        db.close();
+
+        Log.d("AppDBHelper addUser", "DONE");
+    }
+
+    // add entry to system log
+    public void addLogEntry(String type, String details){
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues cv = new ContentValues();
+        cv.put(SystemLogsContract.LogEntry.COLUMN_TYPE, type);
+        cv.put(SystemLogsContract.LogEntry.COLUMN_DETAILS, details);
+
+        try{
+            db.insert(SystemLogsContract.LogEntry.TABLE_NAME, null, cv);
+        } catch (SQLException e){
+            Log.d("AppDBHelper addLogEntry", "Error: " + e.getMessage());
+        }
+        db.close();
+
+        Log.d("AppDBHelper addLogEntry", "DONE");
 
 
+    }
 }

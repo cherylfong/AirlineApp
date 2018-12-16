@@ -20,6 +20,7 @@ public class ViewAccountsActivity extends AppCompatActivity {
 
     private AccountListAdapter mAdapter;
     private SQLiteDatabase mDb;
+    private AppDBHelper dbHelper;
 
     private EditText mNewUsernameEditText;
     private EditText mNewPasswordEditText;
@@ -43,7 +44,7 @@ public class ViewAccountsActivity extends AppCompatActivity {
         accountListRecylerView.setLayoutManager(new LinearLayoutManager(this));
 
         // create DB helper to create the DB if run for first time
-        AppDBHelper dbHelper = new AppDBHelper(this);
+        dbHelper = new AppDBHelper(this);
 
         // Keep a reference to the mDb until paused or killed. Get a writable database
         // since will be adding users
@@ -64,6 +65,8 @@ public class ViewAccountsActivity extends AppCompatActivity {
         // To handle swiping items off the list
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
 
+
+
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
                 //do nothing, since only want swiping
@@ -78,9 +81,15 @@ public class ViewAccountsActivity extends AppCompatActivity {
 
                 Log.d("ItemTouchHelper", "value of id: " + id);
 
-                //remove from DB
-                removeAccount(id);
+                AppDBHelper mdbHelper = new AppDBHelper(getApplicationContext());
 
+                String details =  getInfoFromID(id, mdbHelper);
+
+                // add to system log
+                mdbHelper.addLogEntry("delete account",details);
+//              mdbHelper.addLogEntry("delete account", "test");
+
+                removeAccount(id);
 
                 //update the list
                 mAdapter.swapCursor(getAllAccounts());
@@ -122,9 +131,12 @@ public class ViewAccountsActivity extends AppCompatActivity {
             Log.e(LOG_TAG, "Password in add account error: " + e.getMessage());
         }
 
+        String username = mNewUsernameEditText.getText().toString().trim();
         // add new account with username and password
         // Add username info to mDb
-        addNewUser(mNewUsernameEditText.getText().toString().trim(), password);
+        addNewUser(username, password);
+
+        dbHelper.addLogEntry("sys: new account", "usrnm=" + username + " pword=" + password);
 
         // to update the cursor in the adapter to trigger UI to display the new list
         mAdapter.swapCursor(getAllAccounts());
@@ -136,6 +148,9 @@ public class ViewAccountsActivity extends AppCompatActivity {
         mNewPasswordEditText.getText().clear();
 
         Toast.makeText(getApplicationContext(), "New account added.", Toast.LENGTH_SHORT).show();
+
+        // dbHelper.addLogEntry("new account system", "test");
+
     }
 
     /**
@@ -218,6 +233,52 @@ public class ViewAccountsActivity extends AppCompatActivity {
         return mDb.delete(AccountContract.AccountEntry.TABLE_NAME, AccountContract.AccountEntry._ID + "=" + id, null) > 0;
     }
 
+
+    private Cursor getRowData(int id, AppDBHelper mDBHelper){
+
+        SQLiteDatabase mmDb = mDBHelper.getWritableDatabase();
+
+        String selection = AccountContract.AccountEntry._ID + " = ?";
+
+
+        String[] selectArg = {
+                String.valueOf(id)
+        };
+
+        return mmDb.query(
+                AccountContract.AccountEntry.TABLE_NAME,
+                null,
+                selection,
+                selectArg,
+                null,
+                null,
+                null
+        );
+
+    }
+
+    private String getInfoFromID(int id, AppDBHelper mDBHelper){
+
+        Cursor cursor = getRowData(id, mDBHelper);
+
+        if (cursor != null){
+
+            cursor.moveToFirst();
+
+            String u = cursor.getString(cursor.getColumnIndex(AccountContract.AccountEntry.COLUMN_USERNAME));
+            String p = cursor.getString(cursor.getColumnIndex(AccountContract.AccountEntry.COLUMN_PASSWORD));
+            String t = cursor.getString(cursor.getColumnIndex(AccountContract.AccountEntry.COLUMN_TIMESTAMP));
+            String mid = cursor.getString(cursor.getColumnIndex(AccountContract.AccountEntry._ID));
+
+            return "id=" + mid + " usrnm=" + u + " pword=" + p + " createdAt=" + t;
+
+        }else{
+
+            Toast.makeText(getApplicationContext(), "Something went wrong. - ViewAccountsActivity", Toast.LENGTH_LONG);
+            return "ERROR getInfoFromID - ViewAccountsActivity";
+        }
+
+    }
 
 
 }

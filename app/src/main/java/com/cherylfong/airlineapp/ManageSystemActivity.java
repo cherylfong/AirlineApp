@@ -12,8 +12,6 @@ public class ManageSystemActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_system);
 
-// TODO (5) intent code change
-
         findViewById(R.id.accounts_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -29,6 +27,16 @@ public class ManageSystemActivity extends AppCompatActivity {
             public void onClick (View v){
 
                 Intent intent = new Intent( ManageSystemActivity.this, ViewSystemLogsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        findViewById(R.id.flights_button).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick (View v){
+
+                Intent intent = new Intent( ManageSystemActivity.this, ViewFlightsActivity.class);
                 startActivity(intent);
             }
         });

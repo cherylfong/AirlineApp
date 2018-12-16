@@ -20,7 +20,9 @@
         <activity android:name=".ManageSystemActivity" />
         <activity android:name=".AdminLoginActivity" />
         <activity android:name=".ViewSystemLogsActivity" />
-        <activity android:name=".CreateAccountActivity"></activity>
+        <activity android:name=".CreateAccountActivity" />
+        <activity android:name=".BookFlightActivity" />
+        <activity android:name=".ViewFlightsActivity"></activity>
     </application>
 
 </manifest>

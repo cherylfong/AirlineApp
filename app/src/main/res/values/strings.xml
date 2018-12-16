@@ -11,4 +11,26 @@
     <string name="default_id">\?</string>
     <string name="default_timestamp">\?</string>
 
+    <string name="default_type">[transaction type]</string>
+    <string name="default_details">[details...]</string>
+
+    <string name="default_flightCode">000</string>
+    <string name="default_depart">Depart</string>
+    <string name="default_arrive">Arrive</string>
+    <string name="default_takeoff">xx:xx</string>
+    <string name="default_capacity">\?</string>
+    <string name="default_price">\$\?</string>
+
+
+
+    <string-array name="ticketNum_array">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+    </string-array>
+
 </resources>

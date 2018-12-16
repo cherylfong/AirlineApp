@@ -13,6 +13,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ViewAccountsActivity extends AppCompatActivity {
 
     private AccountListAdapter mAdapter;
@@ -21,7 +24,7 @@ public class ViewAccountsActivity extends AppCompatActivity {
     private EditText mNewUsernameEditText;
     private EditText mNewPasswordEditText;
 
-    private final static String LOG_TAG = MainActivity.class.getSimpleName();
+    private final static String LOG_TAG = ViewAccountsActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +84,9 @@ public class ViewAccountsActivity extends AppCompatActivity {
 
                 //update the list
                 mAdapter.swapCursor(getAllAccounts());
+
+                Toast.makeText(getApplicationContext(), "Account removed.", Toast.LENGTH_SHORT).show();
+
             }
 
             // attach the ItemTouchHelper to the RecyclerView
@@ -98,6 +104,8 @@ public class ViewAccountsActivity extends AppCompatActivity {
         // Check if any of the EditTexts are empty, otherwise return/exit
         if (mNewUsernameEditText.getText().length() == 0 ||
                 mNewPasswordEditText.getText().length() == 0) {
+
+            Toast.makeText(getApplicationContext(), "All Fields must be filled!", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -107,7 +115,7 @@ public class ViewAccountsActivity extends AppCompatActivity {
        // TODO (1) Update exception for password
         try {
             //mNewPartyCountEditText inputType="number", so this should always work
-            password = mNewPasswordEditText.getText().toString();
+            password = mNewPasswordEditText.getText().toString().trim();
 
         } catch (Exception e) {
 
@@ -116,7 +124,7 @@ public class ViewAccountsActivity extends AppCompatActivity {
 
         // add new account with username and password
         // Add username info to mDb
-        addNewUser(mNewUsernameEditText.getText().toString(), password);
+        addNewUser(mNewUsernameEditText.getText().toString().trim(), password);
 
         // to update the cursor in the adapter to trigger UI to display the new list
         mAdapter.swapCursor(getAllAccounts());
@@ -126,6 +134,8 @@ public class ViewAccountsActivity extends AppCompatActivity {
         mNewPasswordEditText.clearFocus();
         mNewUsernameEditText.getText().clear();
         mNewPasswordEditText.getText().clear();
+
+        Toast.makeText(getApplicationContext(), "New account added.", Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -143,6 +153,37 @@ public class ViewAccountsActivity extends AppCompatActivity {
                 null,
                 AccountContract.AccountEntry.COLUMN_TIMESTAMP
         );
+    }
+
+    // TODO remove this function perhaps
+
+    /**
+     * Query the mDb and get all users from accounts table
+     *
+     * @return a list datatype of accounts (users)
+     */
+    private List<Account> getAllAccountsList(){
+
+        List<Account> accList = new ArrayList<Account>();
+
+        Cursor cursor = getAllAccounts();
+
+
+        // Traversing through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                Account user = new Account();
+
+                user.setId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(AccountContract.AccountEntry._ID))));
+                user.setUsername(cursor.getString(cursor.getColumnIndex(AccountContract.AccountEntry.COLUMN_USERNAME)));
+                user.setPassword(cursor.getString(cursor.getColumnIndex(AccountContract.AccountEntry.COLUMN_PASSWORD)));
+
+                // Adding user record to list
+                accList.add(user);
+            } while (cursor.moveToNext());
+        }
+
+        return accList;
     }
 
     /**
@@ -172,7 +213,7 @@ public class ViewAccountsActivity extends AppCompatActivity {
      * @param id the DB id to be removed
      * @return True: if removed successfully, False: failed
      */
-    private boolean removeAccount(long id) {
+    private boolean removeAccount(int id) {
 
         return mDb.delete(AccountContract.AccountEntry.TABLE_NAME, AccountContract.AccountEntry._ID + "=" + id, null) > 0;
     }

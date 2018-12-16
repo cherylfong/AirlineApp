@@ -16,7 +16,7 @@ public class AppDBHelper extends SQLiteOpenHelper{
     private static final String DATABASE_NAME = "flight-reservations-app.db";
 
     // If change database schema, must increment the database version
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
 
     private static final String ACCOUNTS_TABLE = "CREATE TABLE " + AccountEntry.TABLE_NAME + " ("
             + AccountEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -142,7 +142,7 @@ public class AppDBHelper extends SQLiteOpenHelper{
        } catch (SQLException e){
            Log.d("AppDBHelper addUser", "Error: " + e.getMessage());
        }
-        db.close();
+//        db.close();
 
         Log.d("AppDBHelper addUser", "DONE");
     }
@@ -161,7 +161,6 @@ public class AppDBHelper extends SQLiteOpenHelper{
         } catch (SQLException e){
             Log.d("AppDBHelper addLogEntry", "Error: " + e.getMessage());
         }
-        db.close();
 
         Log.d("AppDBHelper addLogEntry", "DONE");
 

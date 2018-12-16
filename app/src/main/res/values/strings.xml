@@ -18,10 +18,8 @@
     <string name="default_depart">Depart</string>
     <string name="default_arrive">Arrive</string>
     <string name="default_takeoff">xx:xx</string>
-    <string name="default_capacity">\?</string>
+    <string name="default_capacity">Cap</string>
     <string name="default_price">\$\?</string>
-
-
 
     <string-array name="ticketNum_array">
         <item>1</item>

@@ -16,7 +16,7 @@ public class AppDBHelper extends SQLiteOpenHelper{
     private static final String DATABASE_NAME = "flight-reservations-app.db";
 
     // If change database schema, must increment the database version
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
 
     private static final String ACCOUNTS_TABLE = "CREATE TABLE " + AccountEntry.TABLE_NAME + " ("
             + AccountEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -32,6 +32,20 @@ public class AppDBHelper extends SQLiteOpenHelper{
             + SystemLogsContract.LogEntry.COLUMN_TIMESTAMP + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP"
             + "); ";
 
+
+    private static final String FLIGHTS_TABLE = "CREATE TABLE " + FlightContract.FlightEntry.TABLE_NAME + " ("
+            + FlightContract.FlightEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+            + FlightContract.FlightEntry.COLUMN_DESIGNATOR + " TEXT NOT NULL, "
+            + FlightContract.FlightEntry.COLUMN_DEPART + " TEXT NOT NULL, "
+            + FlightContract.FlightEntry.COLUMN_ARRIVE + " TEXT NOT NULL, "
+            + FlightContract.FlightEntry.COLUMN_TAKEOFF_TIME + " TEXT NOT NULL, "
+            + FlightContract.FlightEntry.COLUMN_CAPACITY + " INTEGER NOT NULL, "
+            + FlightContract.FlightEntry.COLUMN_PRICE + " DOUBLE NOT NULL, "
+            + FlightContract.FlightEntry.COLUMN_TIMESTAMP + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP, "
+            + " UNIQUE (" + FlightContract.FlightEntry.COLUMN_DESIGNATOR + ") ON CONFLICT REPLACE"
+            + "); ";
+
+            // TODO : unqiue entry
 
 
     // constructor
@@ -53,6 +67,9 @@ public class AppDBHelper extends SQLiteOpenHelper{
             String SQL_CREATE_LOGS_TABLE = SYSTEMLOGS_TABLE;
             sqLiteDatabase.execSQL(SQL_CREATE_LOGS_TABLE);
 
+            String SQL_CREATE_FLIGHT_TABLE = FLIGHTS_TABLE;
+            sqLiteDatabase.execSQL(SQL_CREATE_FLIGHT_TABLE);
+
             TestUtil.insertTestData(sqLiteDatabase);
 
         }catch (SQLException e){
@@ -71,6 +88,7 @@ public class AppDBHelper extends SQLiteOpenHelper{
         // if DATABASE_VERSION changed then the tables will be dropped.
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + AccountEntry.TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + SystemLogsContract.LogEntry.TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + FlightContract.FlightEntry.TABLE_NAME);
 
         onCreate(sqLiteDatabase);
     }

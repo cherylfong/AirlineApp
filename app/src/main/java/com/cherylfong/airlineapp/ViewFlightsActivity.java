@@ -17,6 +17,7 @@ public class ViewFlightsActivity extends AppCompatActivity {
 
     private FlightListAdapter mAdapter;
     private SQLiteDatabase mDb;
+    private AppDBHelper dbHelper;
 
     private EditText mNewDepartEditText;
     private EditText mNewArriveEditText;
@@ -45,7 +46,7 @@ public class ViewFlightsActivity extends AppCompatActivity {
 
         flightListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        AppDBHelper dbHelper = new AppDBHelper(this);
+        dbHelper = new AppDBHelper(this);
 
         mDb = dbHelper.getWritableDatabase();
 
@@ -73,9 +74,10 @@ public class ViewFlightsActivity extends AppCompatActivity {
 
                 Log.d("ItemTouchHelper", "value of id: " + id);
 
+                dbHelper.addLogEntry("delete flight", getInfoFromID(id));
+
                 //remove from DB
                 removeFlight(id);
-
 
                 //update the list
                 mAdapter.swapCursor(getAllSystemFlights());
@@ -128,6 +130,12 @@ public class ViewFlightsActivity extends AppCompatActivity {
 
         mAdapter.swapCursor(getAllSystemFlights());
 
+        Toast.makeText(getApplicationContext(), "New flight added.", Toast.LENGTH_SHORT).show();
+
+        dbHelper.addLogEntry("new flight", "flycode=" + newFlightCode + " depart=" + newDeparture
+                + " arrive=" + newArrival + " cap=" + newCapacity + " t=" + newTakeoff + " p=" + newPrice);
+
+
         mNewFlightCodeEditText.clearFocus();
         mNewFlightCodeEditText.getText().clear();
         mNewDepartEditText.getText().clear();
@@ -160,12 +168,69 @@ public class ViewFlightsActivity extends AppCompatActivity {
         cv.put(FlightContract.FlightEntry.COLUMN_CAPACITY, capacity);
         cv.put(FlightContract.FlightEntry.COLUMN_PRICE, price);
 
-        Toast.makeText(getApplicationContext(), "New flight added.", Toast.LENGTH_SHORT).show();
 
         return mDb.insert(FlightContract.FlightEntry.TABLE_NAME, null, cv);
     }
 
     private boolean removeFlight(int id){
         return mDb.delete(FlightContract.FlightEntry.TABLE_NAME, FlightContract.FlightEntry._ID + " = " + id, null) > 0 ;
+    }
+
+    // return cursor with matching id
+    private Cursor getRowData(int id){
+
+        String selection = FlightContract.FlightEntry._ID + " = ?";
+
+
+        String[] selectArg = {
+                String.valueOf(id)
+        };
+
+        return mDb.query(
+                FlightContract.FlightEntry.TABLE_NAME,
+                null,
+                selection,
+                selectArg,
+                null,
+                null,
+                null
+        );
+
+    }
+
+    // return a string of information from db that matches id
+    private String getInfoFromID(int id){
+
+        Cursor cursor = getRowData(id);
+
+        if (cursor != null){
+
+            cursor.moveToFirst();
+
+            String flightCode = cursor.getString(cursor.getColumnIndex(FlightContract.FlightEntry.COLUMN_DESIGNATOR));
+            String depart = cursor.getString(cursor.getColumnIndex(FlightContract.FlightEntry.COLUMN_DEPART));
+            String arrive = cursor.getString(cursor.getColumnIndex(FlightContract.FlightEntry.COLUMN_ARRIVE));
+            String takeOff = cursor.getString(cursor.getColumnIndex(FlightContract.FlightEntry.COLUMN_TAKEOFF_TIME));
+            String capacity = cursor.getString(cursor.getColumnIndex(FlightContract.FlightEntry.COLUMN_CAPACITY));
+            String price = cursor.getString(cursor.getColumnIndex(FlightContract.FlightEntry.COLUMN_PRICE));
+            String t = cursor.getString(cursor.getColumnIndex(FlightContract.FlightEntry.COLUMN_TIMESTAMP));
+
+            return "flycode=" + flightCode + " depart=" + depart + " arrive=" + arrive + " cap=" + capacity
+                    + " t="
+                    + takeOff
+                    + " p=$"
+                    + price
+                    + " createdAt="
+                    + t;
+
+
+        }else{
+
+            Toast.makeText(getApplicationContext(), "Something went wrong. - ViewFlightsActivity", Toast.LENGTH_LONG);
+            return "ERROR getInfoFromID - ViewFlightsActivity";
+
+        }
+
+
     }
 }

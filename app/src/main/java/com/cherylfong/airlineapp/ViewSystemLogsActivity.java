@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
+import android.widget.Toast;
 
 public class ViewSystemLogsActivity extends AppCompatActivity {
 
@@ -59,6 +60,8 @@ public class ViewSystemLogsActivity extends AppCompatActivity {
 
                 //update the list
                 mAdapter.swapCursor(getAllLogs());
+
+                Toast.makeText(getApplicationContext(), "Log removed.", Toast.LENGTH_SHORT).show();
             }
 
             // attach the ItemTouchHelper to the RecyclerView

@@ -116,6 +116,87 @@ public class TestUtil {
             Log.d("TestUtil", "create dummy log data done");
         }
 
+
+        //////////////////////////////////////////////////////////////////////
+        Log.d("TestUtil", "insertTestFLIGHTS called");
+        /////////////////////////////////////////////////////////////////////
+
+        //create a list of test accounts
+        List<ContentValues> flightList = new ArrayList<ContentValues>();
+
+        cv = new ContentValues();
+        cv.put(FlightContract.FlightEntry.COLUMN_DESIGNATOR, "Otter101");
+        cv.put(FlightContract.FlightEntry.COLUMN_DEPART, "Monterey");
+        cv.put(FlightContract.FlightEntry.COLUMN_ARRIVE, "Los Angeles");
+        cv.put(FlightContract.FlightEntry.COLUMN_TAKEOFF_TIME, "10:30");
+        cv.put(FlightContract.FlightEntry.COLUMN_CAPACITY, 10);
+        cv.put(FlightContract.FlightEntry.COLUMN_PRICE, 150.00);
+        flightList.add(cv);
+
+        cv = new ContentValues();
+        cv.put(FlightContract.FlightEntry.COLUMN_DESIGNATOR, "Otter102");
+        cv.put(FlightContract.FlightEntry.COLUMN_DEPART, "Los Angeles");
+        cv.put(FlightContract.FlightEntry.COLUMN_ARRIVE, "Monterey");
+        cv.put(FlightContract.FlightEntry.COLUMN_TAKEOFF_TIME, "13:00");
+        cv.put(FlightContract.FlightEntry.COLUMN_CAPACITY, 10);
+        cv.put(FlightContract.FlightEntry.COLUMN_PRICE, 150.00);
+        flightList.add(cv);
+
+        cv = new ContentValues();
+        cv.put(FlightContract.FlightEntry.COLUMN_DESIGNATOR, "Otter201");
+        cv.put(FlightContract.FlightEntry.COLUMN_DEPART, "Monterey");
+        cv.put(FlightContract.FlightEntry.COLUMN_ARRIVE, "Seattle");
+        cv.put(FlightContract.FlightEntry.COLUMN_TAKEOFF_TIME, "11:00");
+        cv.put(FlightContract.FlightEntry.COLUMN_CAPACITY, 5);
+        cv.put(FlightContract.FlightEntry.COLUMN_PRICE, 200.50);
+        flightList.add(cv);
+
+        cv = new ContentValues();
+        cv.put(FlightContract.FlightEntry.COLUMN_DESIGNATOR, "Otter205");
+        cv.put(FlightContract.FlightEntry.COLUMN_DEPART, "Monterey");
+        cv.put(FlightContract.FlightEntry.COLUMN_ARRIVE, "Seattle");
+        cv.put(FlightContract.FlightEntry.COLUMN_TAKEOFF_TIME, "15:45");
+        cv.put(FlightContract.FlightEntry.COLUMN_CAPACITY, 15);
+        cv.put(FlightContract.FlightEntry.COLUMN_PRICE, 150.00);
+        flightList.add(cv);
+
+        cv = new ContentValues();
+        cv.put(FlightContract.FlightEntry.COLUMN_DESIGNATOR, "Otter202");
+        cv.put(FlightContract.FlightEntry.COLUMN_DEPART, "Seattle");
+        cv.put(FlightContract.FlightEntry.COLUMN_ARRIVE, "Monterey");
+        cv.put(FlightContract.FlightEntry.COLUMN_TAKEOFF_TIME, "14:10");
+        cv.put(FlightContract.FlightEntry.COLUMN_CAPACITY, 5);
+        cv.put(FlightContract.FlightEntry.COLUMN_PRICE, 200.50);
+        flightList.add(cv);
+
+        //insert all flights in one transaction
+        try
+        {
+            db.beginTransaction();
+
+            //clear the table
+            db.delete(FlightContract.FlightEntry.TABLE_NAME,null,null);
+
+            //add cv on the list
+            for(ContentValues v:flightList){
+
+                db.insert(FlightContract.FlightEntry.TABLE_NAME, null, v);
+
+            }
+
+            db.setTransactionSuccessful();
+
+            Log.d("TestUtil", "create dummy flight data successful");
+        }
+        catch (SQLException e) {
+
+            Log.e("TestUtil", "Error: " + e.getMessage());
+        }
+        finally
+        {
+            db.endTransaction();
+            Log.d("TestUtil", "create dummy flight data done");
+        }
     }
 
 

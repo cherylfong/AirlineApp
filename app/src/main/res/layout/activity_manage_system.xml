@@ -28,6 +28,18 @@
         tools:layout_editor_absoluteX="134dp"
         tools:layout_editor_absoluteY="187dp" />
 
+    <Button
+        android:id="@+id/flights_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="-90dp"
+        android:layout_marginTop="224dp"
+        android:layout_toEndOf="@+id/accounts_button"
+        android:text="Flights"
+        tools:layout_editor_absoluteX="134dp"
+        tools:layout_editor_absoluteY="187dp" />
+
     <TextView
         android:id="@+id/admin_console_textView"
         android:layout_width="wrap_content"

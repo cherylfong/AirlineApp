@@ -266,21 +266,29 @@ public class BookFlightActivity extends AppCompatActivity {
         // otherwise:
         // android.database.CursorIndexOutOfBoundsException: Index -1 requested, with a size of 1
         // TODO keep this note!
-        if (cursor != null)
-            cursor.moveToPosition(id);
+//        if (cursor != null)
+//            cursor.moveToPosition(id);
 
-        String depart = cursor.getString(cursor.getColumnIndex(FlightContract.FlightEntry.COLUMN_DEPART));
-        String arrive = cursor.getString(cursor.getColumnIndex(FlightContract.FlightEntry.COLUMN_ARRIVE));
-        String designator = cursor.getString(cursor.getColumnIndex(FlightContract.FlightEntry.COLUMN_DESIGNATOR));
-        int capacity = cursor.getInt(cursor.getColumnIndex(FlightContract.FlightEntry.COLUMN_CAPACITY));
-        String takeoff = cursor.getString(cursor.getColumnIndex(FlightContract.FlightEntry.COLUMN_TAKEOFF_TIME));
-        double price = cursor.getDouble(cursor.getColumnIndex(FlightContract.FlightEntry.COLUMN_PRICE));
+        // IMPORTANT !!!!!
+        // since cursor returns only one row, that row id is considered as 1
+        // so movingToPosition(id) where id > 1 is invalid !!!!
+        if(cursor != null){
+            cursor.moveToFirst();
 
-        // Log.d(LOG_TAG, "startIntentUsingRowID price: "+ String.valueOf(price) + " takeoff "+ takeoff );
+            String depart = cursor.getString(cursor.getColumnIndex(FlightContract.FlightEntry.COLUMN_DEPART));
+            String arrive = cursor.getString(cursor.getColumnIndex(FlightContract.FlightEntry.COLUMN_ARRIVE));
+            String designator = cursor.getString(cursor.getColumnIndex(FlightContract.FlightEntry.COLUMN_DESIGNATOR));
+            int capacity = cursor.getInt(cursor.getColumnIndex(FlightContract.FlightEntry.COLUMN_CAPACITY));
+            String takeoff = cursor.getString(cursor.getColumnIndex(FlightContract.FlightEntry.COLUMN_TAKEOFF_TIME));
+            double price = cursor.getDouble(cursor.getColumnIndex(FlightContract.FlightEntry.COLUMN_PRICE));
 
-
+            Log.d(LOG_TAG, "startIntentUsingRowID price: "+ String.valueOf(price) + " takeoff "+ takeoff );
 
 //        Intent intent = new Intent(BookflightActivity.this, )
+        }{
+            Toast.makeText(getApplicationContext(), "Something went wrong - BookFlightActivity", Toast.LENGTH_LONG);
+            return;
+        }
 
     }
 

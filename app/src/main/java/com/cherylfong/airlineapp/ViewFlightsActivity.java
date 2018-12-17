@@ -1,7 +1,10 @@
 package com.cherylfong.airlineapp;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
+import android.database.CursorIndexOutOfBoundsException;
+import android.database.sqlite.SQLiteAbortException;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -90,7 +93,6 @@ public class ViewFlightsActivity extends AppCompatActivity {
 
     }
 
-    // TODO add function to button
     public void addFlight(View view){
 
         if(mNewFlightCodeEditText.getText().length() == 0 ||
@@ -126,7 +128,32 @@ public class ViewFlightsActivity extends AppCompatActivity {
             return;
         }
 
-        addNewFlightEntry(newFlightCode, newDeparture, newArrival, newTakeoff, newCapacity, newPrice);
+        try{
+
+            Cursor mCursor = getRowDataFromFlightCode(newFlightCode);
+
+            if(mCursor != null){
+                mCursor.moveToFirst();
+
+                try{
+
+                    String mFlightCode = mCursor.getString(mCursor.getColumnIndex(FlightContract.FlightEntry.COLUMN_DESIGNATOR));
+
+                    if( mFlightCode.equals(newFlightCode)){
+                        Toast.makeText(getApplicationContext(), "Cannot override flight details with existing flight code!", Toast.LENGTH_LONG).show();
+                        return;
+                    }
+
+                }catch (CursorIndexOutOfBoundsException e){
+                    // ignore exception. // valid to add new flights since not conflicting row
+                }
+            }
+
+            addNewFlightEntry(newFlightCode, newDeparture, newArrival, newTakeoff, newCapacity, newPrice);
+
+        } catch (SQLiteAbortException e){
+            Log.d(LOG_TAG, "ERROR addFlightEntry");
+        }
 
         mAdapter.swapCursor(getAllSystemFlights());
 
@@ -143,6 +170,10 @@ public class ViewFlightsActivity extends AppCompatActivity {
         mNewTakeoffEditText.getText().clear();
         mNewCapacityEditText.getText().clear();
         mNewPriceEditText.getText().clear();
+
+        // TODO remove this, since this only for demo:
+        setResult(RESULT_OK);
+        finish();
     }
 
     private Cursor getAllSystemFlights(){
@@ -170,6 +201,7 @@ public class ViewFlightsActivity extends AppCompatActivity {
 
 
         return mDb.insert(FlightContract.FlightEntry.TABLE_NAME, null, cv);
+
     }
 
     private boolean removeFlight(int id){
@@ -232,5 +264,25 @@ public class ViewFlightsActivity extends AppCompatActivity {
         }
 
 
+    }
+
+    private Cursor getRowDataFromFlightCode(String flightCode){
+
+        String selection = FlightContract.FlightEntry.COLUMN_DESIGNATOR + " = ?";
+
+
+        String[] selectArg = {
+                flightCode
+        };
+
+        return mDb.query(
+                FlightContract.FlightEntry.TABLE_NAME,
+                null,
+                selection,
+                selectArg,
+                null,
+                null,
+                null
+        );
     }
 }

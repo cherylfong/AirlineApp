@@ -40,7 +40,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                     return;
                 }
                 else if (password.matches("")){
-                    Toast.makeText(getApplicationContext(), "Input password", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Input password.", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -68,7 +68,7 @@ public class CreateAccountActivity extends AppCompatActivity {
 
                             Toast.makeText(getApplicationContext(), "Account Created !", Toast.LENGTH_LONG).show();
 
-                            dbHelper.addLogEntry("new account", "usernm=" + username + "pword=" + password);
+                            dbHelper.addLogEntry("new account", "usernm=" + username + " pword=" + password);
 
                             finish();
 

@@ -1,5 +1,6 @@
 package com.cherylfong.airlineapp;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.nfc.Tag;
@@ -284,12 +285,44 @@ public class BookFlightActivity extends AppCompatActivity {
 
             Log.d(LOG_TAG, "startIntentUsingRowID price: "+ String.valueOf(price) + " takeoff "+ takeoff );
 
-//        Intent intent = new Intent(BookflightActivity.this, )
+            String ticketNumSelected = spinner.getSelectedItem().toString();
+
+            // make sure that ticket number does not exceed flight capacity !!!
+            if( Integer.parseInt(ticketNumSelected) > capacity) {
+
+                Toast.makeText(getApplicationContext(), "Ticket number more than flight capacity !", Toast.LENGTH_LONG).show();
+                // update ui with the same selection as before
+                mAdapter.swapCursor(getRowData(id));
+                return;
+            }
+
+            Intent intent = new Intent(BookFlightActivity.this, ConfirmFlightActivity.class);
+
+            Bundle mBundle = new Bundle();
+
+            mBundle.putString("depart", depart);
+            mBundle.putString("arrive", arrive);
+            mBundle.putString("designator", designator);
+            mBundle.putString("tickets", ticketNumSelected);
+            mBundle.putString("takeOff", takeoff);
+            mBundle.putString("price", String.valueOf(price));
+            mBundle.putString("flight_id", String.valueOf(id));
+
+            intent.putExtras(mBundle);
+
+            startActivityForResult(intent, 200);
+
         }{
             Toast.makeText(getApplicationContext(), "Something went wrong - BookFlightActivity", Toast.LENGTH_LONG);
             return;
         }
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+
+        finish();
     }
 
 }

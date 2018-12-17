@@ -197,7 +197,55 @@ public class TestUtil {
             db.endTransaction();
             Log.d("TestUtil", "create dummy flight data done");
         }
-    }
+
+        //////////////////////////////////////////////////////////////////////
+        Log.d("TestUtil", "insertTestReservations called");
+        /////////////////////////////////////////////////////////////////////
+
+        //create a list of test accounts
+        List<ContentValues> reservationsList = new ArrayList<ContentValues>();
+
+        cv = new ContentValues();
+        cv.put(ReserveContract.ReserveEntry.COLUMN_DESIGNATOR, "Test111");
+        cv.put(ReserveContract.ReserveEntry.COLUMN_DEPART, "depart from");
+        cv.put(ReserveContract.ReserveEntry.COLUMN_ARRIVE, "arrive at");
+        cv.put(ReserveContract.ReserveEntry.COLUMN_TAKEOFF_TIME, "25:00");
+        cv.put(ReserveContract.ReserveEntry.COLUMN_TICKETS, 3);
+        cv.put(ReserveContract.ReserveEntry.COLUMN_PRICE, 150.00);
+        cv.put(ReserveContract.ReserveEntry.COLUMN_BY_USER, "testUser");
+        reservationsList.add(cv);
+
+        //insert all flights in one transaction
+        try
+        {
+            db.beginTransaction();
+
+            //clear the table
+            db.delete(ReserveContract.ReserveEntry.TABLE_NAME,null,null);
+
+            //add cv on the list
+            for(ContentValues v:reservationsList){
+
+                db.insert(ReserveContract.ReserveEntry.TABLE_NAME, null, v);
+
+            }
+
+            db.setTransactionSuccessful();
+
+            Log.d("TestUtil", "create dummy reservation data successful");
+        }
+        catch (SQLException e) {
+
+            Log.e("TestUtil", "Error: " + e.getMessage());
+        }
+        finally
+        {
+            db.endTransaction();
+            Log.d("TestUtil", "create dummy reservation data done");
+        }
+
+
+    } // function bracket
 
 
 }

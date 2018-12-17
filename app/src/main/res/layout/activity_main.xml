@@ -25,6 +25,16 @@
         android:text="Reserve Seat" />
 
     <Button
+        android:id="@+id/cancel_flight_button"
+        android:layout_width="133dp"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/reserve_flight_button"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="-5dp"
+        android:layout_marginTop="331dp"
+        android:text="Cancel Reservation" />
+
+    <Button
         android:id="@+id/manage_system_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

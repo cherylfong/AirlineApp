@@ -75,10 +75,6 @@ public class FlightListAdapter extends RecyclerView.Adapter<FlightListAdapter.Fl
         }
     }
 
-    interface RecyclerViewClickListener{
-        void onClick(View view, int position);
-    }
-
     // id and timestamp is not shown on flight selection list.
     class FlightViewHolder extends RecyclerView.ViewHolder{
 

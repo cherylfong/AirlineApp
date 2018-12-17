@@ -135,8 +135,8 @@ public class AppDBHelper extends SQLiteOpenHelper{
         );
 
         int cusorCount = cursor.getCount();
-        cursor.close();
-        db.close();
+        // cursor.close();
+        //db.close();
 
         if(cusorCount> 0){
             return true;
@@ -170,8 +170,8 @@ public class AppDBHelper extends SQLiteOpenHelper{
 
         int cusorCount = cursor.getCount();
 
-        cursor.close();
-        db.close();
+        // cursor.close();
+        //db.close();
 
         if(cusorCount> 0){
             return true;

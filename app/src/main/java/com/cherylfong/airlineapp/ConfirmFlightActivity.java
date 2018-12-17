@@ -132,7 +132,7 @@ public class ConfirmFlightActivity extends AppCompatActivity {
                // add entry to log
                mdbHelper.addLogEntry("new reservation", "usrnm=" + username + " depart="
                + depart + " arrive= " + arrive + " flightCode= " + designator + " ticketNum=" + tickets
-               + " takeoffAt=" + takeOff + " totalPrice" + String.valueOf(Integer.parseInt(tickets)
+               + " takeoffAt=" + takeOff + " totalPrice=" + String.valueOf(Integer.parseInt(tickets)
                *Double.parseDouble(price)));
 
 //               Log.d(LOG_TAG + "test", "arrive " + arrive);

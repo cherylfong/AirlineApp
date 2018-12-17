@@ -6,6 +6,18 @@
     tools:context=".ManageSystemActivity">
 
     <Button
+        android:id="@+id/all_reservations_button"
+        android:layout_width="126dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="-108dp"
+        android:layout_marginTop="301dp"
+        android:layout_toEndOf="@+id/accounts_button"
+        android:text="All Reservations"
+        tools:layout_editor_absoluteX="134dp"
+        tools:layout_editor_absoluteY="187dp" />
+
+    <Button
         android:id="@+id/accounts_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

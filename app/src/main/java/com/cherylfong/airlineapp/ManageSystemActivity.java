@@ -1,6 +1,7 @@
 package com.cherylfong.airlineapp;
 
 import android.content.Intent;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -40,5 +41,23 @@ public class ManageSystemActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
+        findViewById(R.id.all_reservations_button).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick (View v){
+
+                Intent intent = new Intent( ManageSystemActivity.this, ViewReservedFlightsActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+
+        setResult(RESULT_OK);
+        finish();
     }
 }

@@ -23,6 +23,7 @@ public class ConfirmFlightActivity extends AppCompatActivity {
     private String takeOff;
     private String price;
     private String username;
+    private String flight_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +76,7 @@ public class ConfirmFlightActivity extends AppCompatActivity {
                     tickets = getIntent().getExtras().getString("tickets");
                     takeOff = getIntent().getExtras().getString("takeOff");
                     price = getIntent().getExtras().getString("price");
+                    flight_id = getIntent().getExtras().getString("flight_id");
 
 //                    Log.d(LOG_TAG, "depart=" + depart + " arrive=" + arrive);
 
@@ -119,21 +121,34 @@ public class ConfirmFlightActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                // check the database if the input is the same with existing usernames
+               AppDBHelper mdbHelper = new AppDBHelper(getApplicationContext());
 
                 // add to reservations tables
-                dbHelper.addReservation(username, depart, arrive, designator, tickets, takeOff, price);
+                mdbHelper.addReservation(username, depart, arrive, designator, tickets, takeOff, price);
 
                Toast.makeText(getApplicationContext(), "Flight reservation saved!", Toast.LENGTH_LONG);
 
                // add entry to log
-               dbHelper.addLogEntry("new reservation", "usrnm=" + username + " depart="
+               mdbHelper.addLogEntry("new reservation", "usrnm=" + username + " depart="
                + depart + " arrive= " + arrive + " flightCode= " + designator + " ticketNum=" + tickets
                + " takeoffAt=" + takeOff + " totalPrice" + String.valueOf(Integer.parseInt(tickets)
                *Double.parseDouble(price)));
 
+//               Log.d(LOG_TAG + "test", "arrive " + arrive);
+
+                // update flight capacity
+                mdbHelper.updateFlightCapacity(Integer.parseInt(flight_id), true, Integer.parseInt(tickets) );
+
+
                // go back to main menu
-               Intent intent = new Intent(ConfirmFlightActivity.this, MainActivity.class);
-               startActivity(intent);
+               // however, stops the database thread immediately !!!
+//               Intent intent = new Intent(ConfirmFlightActivity.this, MainActivity.class);
+//               startActivity(intent);
+
+                // IMPORTANT, otherwise onActivityResult will not be called
+                setResult(RESULT_OK);
+                finish();
 
 
             }

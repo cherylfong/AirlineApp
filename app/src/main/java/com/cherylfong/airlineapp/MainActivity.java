@@ -46,14 +46,14 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-//        findViewById(R.id.cancel_flight_button).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                Intent intent = new Intent(MainActivity.this, .class);
-//                startActivity(intent);
-//            }
-//        });
+        findViewById(R.id.cancel_flight_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(MainActivity.this, CancelReservationActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 

@@ -12,6 +12,8 @@ import com.cherylfong.airlineapp.AccountContract.*;
 
 public class AppDBHelper extends SQLiteOpenHelper{
 
+    private static final String LOG_TAG = AppDBHelper.class.getSimpleName();
+
     // app's database name
     private static final String DATABASE_NAME = "flight-reservations-app.db";
 
@@ -42,13 +44,9 @@ public class AppDBHelper extends SQLiteOpenHelper{
             + FlightContract.FlightEntry.COLUMN_CAPACITY + " INTEGER NOT NULL, "
             + FlightContract.FlightEntry.COLUMN_PRICE + " DOUBLE NOT NULL, "
             + FlightContract.FlightEntry.COLUMN_TIMESTAMP + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP, "
-            + " UNIQUE (" + FlightContract.FlightEntry.COLUMN_DESIGNATOR + ") ON CONFLICT REPLACE"
+            + " UNIQUE (" + FlightContract.FlightEntry.COLUMN_DESIGNATOR + ") ON CONFLICT ABORT"
             + "); ";
 
-    // TODO
-    // https://sqlite.org/lang_conflict.html
-    // FAIL
-    // use try catch when adding new flight in system
 
     private static final String RESERVATIONS_TABLE = "CREATE TABLE " + ReserveContract.ReserveEntry.TABLE_NAME + " ("
             + ReserveContract.ReserveEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -242,6 +240,74 @@ public class AppDBHelper extends SQLiteOpenHelper{
 //        db.close();
 
         Log.d("AppDB addReservation", "DONE");
+
+    }
+
+    // updates the flight capacity
+    // @param amount : either the reservation ticket number canceled or the ticket number reserved
+    public void updateFlightCapacity(int id, boolean isSubtract, int amount){
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        String selection = FlightContract.FlightEntry._ID + " = ?";
+
+
+        String[] selectArg = {
+                String.valueOf(id)
+        };
+
+        Cursor cursor = db.query(
+                FlightContract.FlightEntry.TABLE_NAME,
+                null,
+                selection,
+                selectArg,
+                null,
+                null,
+                null
+        );
+
+        if(cursor != null) {
+            cursor.moveToFirst();
+        }else {
+            Log.d(LOG_TAG, "ERROR updataFlightCapacity");
+            return;
+        }
+
+        int capacity = cursor.getInt(cursor.getColumnIndex(FlightContract.FlightEntry.COLUMN_CAPACITY));
+
+        if(isSubtract){
+
+            // reserving a flight ( current capacity - ticketnumber )
+            int changeNum = capacity - amount;
+
+            cv.put(FlightContract.FlightEntry.COLUMN_CAPACITY, changeNum);
+
+            try{
+
+                db.update(FlightContract.FlightEntry.TABLE_NAME, cv,"_id = " + id, null);
+
+            } catch (SQLException e){
+                Log.d("AppDB addReservation", "Error: " + e.getMessage());
+            }
+
+        } else {
+
+            // cancel a flight reservation ( current capacity + ticketnumber )
+            int changeNum = capacity + amount;
+
+            cv.put(FlightContract.FlightEntry.COLUMN_CAPACITY, changeNum);
+
+            try{
+
+                db.update(FlightContract.FlightEntry.TABLE_NAME, cv,"_id = " + id, null);
+
+            } catch (SQLException e){
+                Log.d("AppDB addReservation", "Error: " + e.getMessage());
+            }
+
+
+        }
 
     }
 }

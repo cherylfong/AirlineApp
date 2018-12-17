@@ -45,7 +45,22 @@ public class AppDBHelper extends SQLiteOpenHelper{
             + " UNIQUE (" + FlightContract.FlightEntry.COLUMN_DESIGNATOR + ") ON CONFLICT REPLACE"
             + "); ";
 
-            // TODO : unqiue entry
+    // TODO
+    // https://sqlite.org/lang_conflict.html
+    // FAIL
+    // use try catch when adding new flight in system
+
+    private static final String RESERVATIONS_TABLE = "CREATE TABLE " + ReserveContract.ReserveEntry.TABLE_NAME + " ("
+            + ReserveContract.ReserveEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+            + ReserveContract.ReserveEntry.COLUMN_BY_USER + " TEXT NOT NULL, "
+            + ReserveContract.ReserveEntry.COLUMN_DESIGNATOR + " TEXT NOT NULL, "
+            + ReserveContract.ReserveEntry.COLUMN_DEPART + " TEXT NOT NULL, "
+            + ReserveContract.ReserveEntry.COLUMN_ARRIVE + " TEXT NOT NULL, "
+            + ReserveContract.ReserveEntry.COLUMN_TAKEOFF_TIME + " TEXT NOT NULL, "
+            + ReserveContract.ReserveEntry.COLUMN_TICKETS + " INTEGER NOT NULL, "
+            + ReserveContract.ReserveEntry.COLUMN_PRICE + " DOUBLE NOT NULL, "
+            + ReserveContract.ReserveEntry.COLUMN_TIMESTAMP + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP"
+            + "); ";
 
 
     // constructor
@@ -70,6 +85,9 @@ public class AppDBHelper extends SQLiteOpenHelper{
             String SQL_CREATE_FLIGHT_TABLE = FLIGHTS_TABLE;
             sqLiteDatabase.execSQL(SQL_CREATE_FLIGHT_TABLE);
 
+            String SQL_CREATE_RESERVATIONS_TABLE = RESERVATIONS_TABLE;
+            sqLiteDatabase.execSQL(SQL_CREATE_RESERVATIONS_TABLE);
+
             TestUtil.insertTestData(sqLiteDatabase);
 
         }catch (SQLException e){
@@ -89,6 +107,7 @@ public class AppDBHelper extends SQLiteOpenHelper{
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + AccountEntry.TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + SystemLogsContract.LogEntry.TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + FlightContract.FlightEntry.TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + ReserveContract.ReserveEntry.TABLE_NAME);
 
         onCreate(sqLiteDatabase);
     }
@@ -118,6 +137,41 @@ public class AppDBHelper extends SQLiteOpenHelper{
         );
 
         int cusorCount = cursor.getCount();
+        cursor.close();
+        db.close();
+
+        if(cusorCount> 0){
+            return true;
+        }
+
+        return false;
+    }
+
+    // returns true if username and password match
+    public boolean isCorrectUserPass(String username, String password){
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String selection = AccountEntry.COLUMN_USERNAME + " = ? AND "
+                + AccountEntry.COLUMN_PASSWORD + " = ?";
+
+        String[] selectArg = {
+                username,
+                password
+        };
+
+        Cursor cursor = db.query(
+                AccountEntry.TABLE_NAME,
+                null,
+                selection,
+                selectArg,
+                null,
+                null,
+                null
+        );
+
+        int cusorCount = cursor.getCount();
+
         cursor.close();
         db.close();
 
@@ -164,6 +218,30 @@ public class AppDBHelper extends SQLiteOpenHelper{
 
         Log.d("AppDBHelper addLogEntry", "DONE");
 
+    }
+
+    public void addReservation(String user, String depart, String arrive, String desig, String tickets,
+                               String takeOff, String price){
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues cv = new ContentValues();
+        cv.put(ReserveContract.ReserveEntry.COLUMN_BY_USER, user);
+        cv.put(ReserveContract.ReserveEntry.COLUMN_DEPART,depart);
+        cv.put(ReserveContract.ReserveEntry.COLUMN_ARRIVE,arrive);
+        cv.put(ReserveContract.ReserveEntry.COLUMN_DESIGNATOR,desig);
+        cv.put(ReserveContract.ReserveEntry.COLUMN_TICKETS,tickets);
+        cv.put(ReserveContract.ReserveEntry.COLUMN_TAKEOFF_TIME, takeOff);
+        cv.put(ReserveContract.ReserveEntry.COLUMN_PRICE,price);
+
+        try{
+            db.insert(ReserveContract.ReserveEntry.TABLE_NAME, null, cv);
+        } catch (SQLException e){
+            Log.d("AppDB addReservation", "Error: " + e.getMessage());
+        }
+//        db.close();
+
+        Log.d("AppDB addReservation", "DONE");
 
     }
 }

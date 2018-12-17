@@ -81,7 +81,7 @@ public class ViewSystemLogsActivity extends AppCompatActivity {
         );
     }
 
-    private boolean removeLog(long id) {
+    private boolean removeLog(int id) {
 
         return mDb.delete(SystemLogsContract.LogEntry.TABLE_NAME, SystemLogsContract.LogEntry._ID + "=" + id, null) > 0;
     }

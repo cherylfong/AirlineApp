@@ -79,7 +79,7 @@ public class ViewReservedFlightsActivity extends AppCompatActivity {
                         int flightID = getFlightIDfromReservedFlightCode(mFlightCode);
 
 
-                        // TODO UPDATE LOG
+                        // UPDATE LOG
                         dbHelper.addLogEntry("cancel reservation", "by-usrnm=" + mUser + " depart="
                                 + mDepart + " arrive= " + mArrive + " flightCode= " + mFlightCode + " ticketNum=" + mTicket
                                 + " takeoffAt=" + mTakeOff + " totalPrice=" + String.valueOf(Integer.parseInt(mTicket)
@@ -129,9 +129,6 @@ public class ViewReservedFlightsActivity extends AppCompatActivity {
         return mDb.delete(ReserveContract.ReserveEntry.TABLE_NAME, ReserveContract.ReserveEntry._ID + "=" + id, null) > 0;
     }
 
-    // TODO update capacity when reservation is removed from system
-
-    // TODO update capacity when reservation is removed by user
 
     private Cursor getRowDataFromReservationID( int id){
 

@@ -3,7 +3,9 @@ package com.cherylfong.airlineapp;
 import android.database.CursorWrapper;
 import android.database.Cursor;
 
-public class AppCursor extends CursorWrapper {
+// TODO (4) find a way to use this class otherwise remove it and account class.
+
+public class  AppCursor extends CursorWrapper {
 
     public AppCursor(Cursor cursor){
         super(cursor);

@@ -4,7 +4,11 @@ public class Account {
 
     private String username;
     private String password;
+    private int id;
 
+    // TODO (3) remove this class or look at todo 4
+
+    public Account(){}
 
     public Account(String username, String password){
 
@@ -28,6 +32,13 @@ public class Account {
         this.password = password;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     @Override
     public String toString(){

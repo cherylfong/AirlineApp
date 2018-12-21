@@ -22,7 +22,10 @@
         <activity android:name=".ViewSystemLogsActivity" />
         <activity android:name=".CreateAccountActivity" />
         <activity android:name=".BookFlightActivity" />
-        <activity android:name=".ViewFlightsActivity"></activity>
+        <activity android:name=".ViewFlightsActivity" />
+        <activity android:name=".ConfirmFlightActivity" />
+        <activity android:name=".ViewReservedFlightsActivity" />
+        <activity android:name=".CancelReservationActivity"></activity>
     </application>
 
 </manifest>

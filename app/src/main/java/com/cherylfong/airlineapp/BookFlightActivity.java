@@ -113,8 +113,8 @@ public class BookFlightActivity extends AppCompatActivity {
                 if (isCursorEmpty(cursor)) {
 
                     Toast.makeText(getApplicationContext(), "No Flights leaving " + depart + ", & arriving " + arrive, Toast.LENGTH_SHORT).show();
-                    setResult(RESULT_OK);
-                    finish();
+//                    setResult(RESULT_OK);
+//                    finish();
 //                    return;
                 }
 

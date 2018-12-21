@@ -25,8 +25,8 @@ public class TestUtil {
         List<ContentValues> accList = new ArrayList<ContentValues>();
 
         ContentValues cv = new ContentValues();
-        cv.put(AccountContract.AccountEntry.COLUMN_USERNAME, "A@lice5");
-        cv.put(AccountContract.AccountEntry.COLUMN_PASSWORD, "@cSit100");
+        cv.put(AccountContract.AccountEntry.COLUMN_USERNAME, "@Alice5");
+        cv.put(AccountContract.AccountEntry.COLUMN_PASSWORD, "@aL100");
         accList.add(cv);
 
         cv = new ContentValues();
@@ -35,8 +35,8 @@ public class TestUtil {
         accList.add(cv);
 
         cv = new ContentValues();
-        cv.put(AccountContract.AccountEntry.COLUMN_USERNAME, "!chriS12!");
-        cv.put(AccountContract.AccountEntry.COLUMN_PASSWORD, "CHrIS12!!");
+        cv.put(AccountContract.AccountEntry.COLUMN_USERNAME, "z@ch3");
+        cv.put(AccountContract.AccountEntry.COLUMN_PASSWORD, "zZz3!");
         accList.add(cv);
 
         //insert all accounts in one transaction
@@ -125,8 +125,8 @@ public class TestUtil {
         List<ContentValues> flightList = new ArrayList<ContentValues>();
 
         cv = new ContentValues();
-        cv.put(FlightContract.FlightEntry.COLUMN_DESIGNATOR, "Otter101");
-        cv.put(FlightContract.FlightEntry.COLUMN_DEPART, "Monterey");
+        cv.put(FlightContract.FlightEntry.COLUMN_DESIGNATOR, "Zephyr101");
+        cv.put(FlightContract.FlightEntry.COLUMN_DEPART, "San Francisco");
         cv.put(FlightContract.FlightEntry.COLUMN_ARRIVE, "Los Angeles");
         cv.put(FlightContract.FlightEntry.COLUMN_TAKEOFF_TIME, "10:30");
         cv.put(FlightContract.FlightEntry.COLUMN_CAPACITY, 10);
@@ -134,17 +134,17 @@ public class TestUtil {
         flightList.add(cv);
 
         cv = new ContentValues();
-        cv.put(FlightContract.FlightEntry.COLUMN_DESIGNATOR, "Otter102");
+        cv.put(FlightContract.FlightEntry.COLUMN_DESIGNATOR, "Zephyr102");
         cv.put(FlightContract.FlightEntry.COLUMN_DEPART, "Los Angeles");
-        cv.put(FlightContract.FlightEntry.COLUMN_ARRIVE, "Monterey");
+        cv.put(FlightContract.FlightEntry.COLUMN_ARRIVE, "San Francisco");
         cv.put(FlightContract.FlightEntry.COLUMN_TAKEOFF_TIME, "13:00");
         cv.put(FlightContract.FlightEntry.COLUMN_CAPACITY, 10);
         cv.put(FlightContract.FlightEntry.COLUMN_PRICE, 150.00);
         flightList.add(cv);
 
         cv = new ContentValues();
-        cv.put(FlightContract.FlightEntry.COLUMN_DESIGNATOR, "Otter201");
-        cv.put(FlightContract.FlightEntry.COLUMN_DEPART, "Monterey");
+        cv.put(FlightContract.FlightEntry.COLUMN_DESIGNATOR, "Zephyr201");
+        cv.put(FlightContract.FlightEntry.COLUMN_DEPART, "San Francisco");
         cv.put(FlightContract.FlightEntry.COLUMN_ARRIVE, "Seattle");
         cv.put(FlightContract.FlightEntry.COLUMN_TAKEOFF_TIME, "11:00");
         cv.put(FlightContract.FlightEntry.COLUMN_CAPACITY, 5);
@@ -152,8 +152,8 @@ public class TestUtil {
         flightList.add(cv);
 
         cv = new ContentValues();
-        cv.put(FlightContract.FlightEntry.COLUMN_DESIGNATOR, "Otter205");
-        cv.put(FlightContract.FlightEntry.COLUMN_DEPART, "Monterey");
+        cv.put(FlightContract.FlightEntry.COLUMN_DESIGNATOR, "Zephyr205");
+        cv.put(FlightContract.FlightEntry.COLUMN_DEPART, "San Francisco");
         cv.put(FlightContract.FlightEntry.COLUMN_ARRIVE, "Seattle");
         cv.put(FlightContract.FlightEntry.COLUMN_TAKEOFF_TIME, "15:45");
         cv.put(FlightContract.FlightEntry.COLUMN_CAPACITY, 15);
@@ -161,9 +161,9 @@ public class TestUtil {
         flightList.add(cv);
 
         cv = new ContentValues();
-        cv.put(FlightContract.FlightEntry.COLUMN_DESIGNATOR, "Otter202");
+        cv.put(FlightContract.FlightEntry.COLUMN_DESIGNATOR, "Zephyr202");
         cv.put(FlightContract.FlightEntry.COLUMN_DEPART, "Seattle");
-        cv.put(FlightContract.FlightEntry.COLUMN_ARRIVE, "Monterey");
+        cv.put(FlightContract.FlightEntry.COLUMN_ARRIVE, "San Francisco");
         cv.put(FlightContract.FlightEntry.COLUMN_TAKEOFF_TIME, "14:10");
         cv.put(FlightContract.FlightEntry.COLUMN_CAPACITY, 5);
         cv.put(FlightContract.FlightEntry.COLUMN_PRICE, 200.50);

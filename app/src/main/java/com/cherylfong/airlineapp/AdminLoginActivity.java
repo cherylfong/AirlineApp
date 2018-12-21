@@ -14,7 +14,7 @@ public class AdminLoginActivity extends AppCompatActivity {
     private final AppCompatActivity activity = AdminLoginActivity.this;
 
     // fixed admin username and password
-    private final String adminUnP = "!admiM2";
+    private final String adminUnP = "!admiN";
 
 
     @Override

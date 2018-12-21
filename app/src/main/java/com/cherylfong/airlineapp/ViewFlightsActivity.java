@@ -141,7 +141,9 @@ public class ViewFlightsActivity extends AppCompatActivity {
 
                     if( mFlightCode.equals(newFlightCode)){
                         Toast.makeText(getApplicationContext(), "Cannot override flight details with existing flight code!", Toast.LENGTH_LONG).show();
-                        return;
+                        setResult(RESULT_OK);
+                        finish();
+                        // return;
                     }
 
                 }catch (CursorIndexOutOfBoundsException e){
@@ -172,8 +174,8 @@ public class ViewFlightsActivity extends AppCompatActivity {
         mNewPriceEditText.getText().clear();
 
         // TODO remove this, since this only for demo:
-        setResult(RESULT_OK);
-        finish();
+//        setResult(RESULT_OK);
+//        finish();
     }
 
     private Cursor getAllSystemFlights(){

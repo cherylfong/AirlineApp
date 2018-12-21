@@ -48,4 +48,19 @@
         android:layout_marginTop="207dp"
         android:text="Create!" />
 
+    <TextView
+        android:layout_width="337dp"
+        android:layout_height="75dp"
+        android:layout_alignStart="@+id/create_username_editText"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="-59dp"
+        android:layout_marginEnd="21dp"
+        android:layout_marginBottom="53dp"
+        android:fontFamily="monospace"
+        android:text="@string/username_password_requirement"
+        android:textAlignment="textStart"
+        android:textColor="@color/design_default_color_primary_dark"
+        android:textSize="12sp" />
+
 </android.widget.RelativeLayout>

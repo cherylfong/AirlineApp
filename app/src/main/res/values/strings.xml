@@ -8,6 +8,13 @@
     <string name="default_username">[username]</string>
     <string name="default_password">[password]</string>
 
+    <string name="username_password_requirement">Username and Password requirements: \n\n
+
+ \u2022 At least one of # @ $ ! \n
+ \u2022 At least one uppercase and lowercase letter \n
+ \u2022 At least one digit
+    </string>
+
     <string name="default_id">\?</string>
     <string name="default_timestamp">\?</string>
 

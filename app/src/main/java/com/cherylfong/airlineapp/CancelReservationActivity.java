@@ -110,8 +110,8 @@ public class CancelReservationActivity extends AppCompatActivity {
                             // User has no reservations.
                             Toast.makeText(getApplicationContext(), "User has no reservations!", Toast.LENGTH_LONG ).show();
 
-                            setResult(RESULT_OK);
-                            finish();
+//                            setResult(RESULT_OK);
+//                            finish();
 
                         }
                     }
@@ -190,7 +190,7 @@ public class CancelReservationActivity extends AppCompatActivity {
 
                 Cursor mmCursor = getUserReservations(mUser);
 
-                Log.d(LOG_TAG, "HEEEYYYY");
+//                Log.d(LOG_TAG, "HEEEYYYY");
 
                 // query reservation
                 if(mmCursor != null){
@@ -206,8 +206,8 @@ public class CancelReservationActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "User: " + mUser + " has no reservations!", Toast.LENGTH_LONG ).show();
 
                             // return to main menu
-                            setResult(RESULT_OK);
-                            finish();
+//                            setResult(RESULT_OK);
+//                            finish();
                        }
 
                         // update ui
@@ -219,9 +219,9 @@ public class CancelReservationActivity extends AppCompatActivity {
                         // User has no reservations.
                         Toast.makeText(getApplicationContext(), "User: " + mUser + " has no reservations!", Toast.LENGTH_LONG ).show();
 
-                        // return to main menu
-                        setResult(RESULT_OK);
-                        finish();
+//                        // return to main menu
+//                        setResult(RESULT_OK);
+//                        finish();
 
                     }
                 }else{
@@ -232,8 +232,8 @@ public class CancelReservationActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "User: " + mUser + " has no reservations!", Toast.LENGTH_LONG ).show();
 
                     // return to main menu
-                    setResult(RESULT_OK);
-                    finish();
+//                    setResult(RESULT_OK);
+//                    finish();
                 }
 
             }

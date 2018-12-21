@@ -81,8 +81,6 @@ public class ReserveListAdapter extends RecyclerView.Adapter<ReserveListAdapter.
         TextView takeoffTextView;
         TextView priceTextView;
 
-        // TODO add username to tile of reservations activity
-
         public ReserveViewHolder(View itemView){
 
             super(itemView);

@@ -84,9 +84,9 @@ public class CreateAccountActivity extends AppCompatActivity {
 
                 }
 
-                if( errorCount > 1){
-                    finish();
-                }
+//                if( errorCount > 1){
+//                    finish();
+//                }
 
 
             }
